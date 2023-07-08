@@ -28,12 +28,11 @@ public class ScheduleAdapter extends RealmBaseAdapter<Schedule> {
     public View getView(int position, View convertView, ViewGroup parent) {
         //getViewメソッドは、ListViewのCellが表示される度に呼ばれる
         //第一引数：positionは、何番目のリスト(Cellか)が渡される。
+        //第二引数は、CellのViewクラス、ListViewの表示が始めての場合は、数回(画面表示できるcellの個数回)はnull で呼ばれる。
         ViewHolder viewHolder;
 
         if ( convertView == null ){
-            //第二引数は、CellのViewクラス、ListViewの表示が始めての場合は、数回(画面表示できるcellの個数回)はnull で呼ばれる。
-            //セルを構成するViewを用意し、あとで管理できるように、タグを
-                        //LayoutInflater クラス xmlからViewを生成する      標準でもつひな形を使う
+                        //LayoutInflater クラス xmlからViewを生成する
             convertView = LayoutInflater.from(parent.getContext())                                 // fromを使ってインスタンスを作成
                     .inflate(android.R.layout.simple_list_item_2, parent, false);                 // inflateメソッドで、xmlからViewを生成する。
             viewHolder = new ViewHolder();                                                          // Viewを束ねたクラス。上で作っている。
