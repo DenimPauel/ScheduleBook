@@ -46,7 +46,12 @@ public class RealmTestActivity extends AppCompatActivity {
                 mRealm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        Schedule schedule = realm.createObject(Schedule.class, 0);
+                        Number max = realm.where(Schedule.class).max("id");
+                        long newId = 0;
+                        if (max != null){
+                            newId = max.longValue() + 1;
+                        }
+                        Schedule schedule = realm.createObject(Schedule.class, newId);
                         schedule.setDate( new Date());
                         schedule.setTitle("登録テスト");
                         schedule.setDetail("スケジュールの詳細情報です");
@@ -65,6 +70,7 @@ public class RealmTestActivity extends AppCompatActivity {
                     @Override
                     public void execute(Realm realm) {
                         RealmResults<Schedule> schedules = realm.where(Schedule.class).findAll();
+                        mTextView.setText("取得しました");
                         for (Schedule schedule : schedules){
                             String text = mTextView.getText() + "\n" + schedule.toString();
                             mTextView.setText(text);
@@ -97,18 +103,16 @@ public class RealmTestActivity extends AppCompatActivity {
                 mRealm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        Schedule schedule = realm.where(Schedule.class).equalTo("id", 0).findFirst();
-
-                        mTextView.setText("削除します\n"+ schedule.toString() );
-                        schedule.deleteFromRealm();
-                        mTextView.setText("削除しました\n"+ schedule.toString() );
-
+                        Number min = realm.where(Schedule.class).min("id");
+                        if( min != null) {
+                            Schedule schedule = realm.where(Schedule.class).equalTo("id", min.longValue()).findFirst();
+                            schedule.deleteFromRealm();
+                            mTextView.setText("削除しました\n" + schedule.toString());
+                        }
                     }
                 });
             }
         });
-
-
     }
 
     @Override
