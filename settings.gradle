@@ -10,6 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // エラー「Failed to resolve: io.realm:android-adapters:4.0.0」回避のため
+        // 以下サイトの情報を元に、jcenter()を追加。ただしjcenterは終息方向にあるので、いつまでつかえるのか不明。
+        // https://teratail.com/questions/dh64n0k4z0mq1o
+        jcenter()
     }
 }
 rootProject.name = "ScheduleBook"
