@@ -5,4 +5,5 @@
     <string name="update_text">更新</string>
     <string name="delete_text">削除</string>
     <string name="db_test_text">データベースのテスト</string>
+    <string name="back_text">戻る</string>
 </resources>
