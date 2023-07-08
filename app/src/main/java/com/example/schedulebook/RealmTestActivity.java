@@ -27,7 +27,7 @@ public class RealmTestActivity extends AppCompatActivity {
 
         mTextView   = (TextView) findViewById(R.id.textView);
         Button create = (Button) findViewById(R.id.create);
-        Button read   = (Button) findViewById(R.id.create);
+        Button read   = (Button) findViewById(R.id.read);
         Button update = (Button) findViewById(R.id.update);
         Button delete = (Button) findViewById(R.id.delete);
 
@@ -69,6 +69,40 @@ public class RealmTestActivity extends AppCompatActivity {
                             String text = mTextView.getText() + "\n" + schedule.toString();
                             mTextView.setText(text);
                         }
+                    }
+                });
+            }
+        });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Schedule schedule = realm.where(Schedule.class).equalTo("id", 0).findFirst();
+                        schedule.setTitle( schedule.getTitle() + "<更新>" );
+                        schedule.setDetail( schedule.getDetail() + "<更新>" );
+
+                        mTextView.setText( "更新しました\n"
+                                + schedule.toString());
+                    }
+                });
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Schedule schedule = realm.where(Schedule.class).equalTo("id", 0).findFirst();
+
+                        mTextView.setText("削除します\n"+ schedule.toString() );
+                        schedule.deleteFromRealm();
+                        mTextView.setText("削除しました\n"+ schedule.toString() );
+
                     }
                 });
             }
