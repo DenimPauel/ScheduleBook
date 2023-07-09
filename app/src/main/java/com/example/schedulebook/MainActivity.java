@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Date;
 
@@ -108,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
                         schedule.deleteFromRealm();
                     }
                 });
+
+                //スナックバー　操作に対する簡易的なフィードバック・メッセージを送る仕組み
+                Snackbar.make(view, "削除しました", Snackbar.LENGTH_LONG )
+                        .show();
+
                 return true;
             }
         });
