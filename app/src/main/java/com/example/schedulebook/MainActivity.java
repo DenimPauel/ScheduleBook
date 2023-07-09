@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -73,7 +74,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //ListViewの一つのcellをタップした時に、InputActivityを起動、編集できるようにする
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //アダプターを取得　ScheduleAdapterへのキャストが必要。
+                ScheduleAdapter adapter = (ScheduleAdapter) mListView.getAdapter();
+                //セルのポジション=IDを渡す。
+                Schedule schedule = adapter.getItem(position);
+                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                intent.putExtra("ID", schedule.getId());
+//                intent.putExtra("ID", schedule.id);
+                startActivity(intent);
+            }
+        });
 
+        //ListViewの一つのcellをロングタップした時に削除する
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ScheduleAdapter adapter = (ScheduleAdapter) mListView.getAdapter();
+
+                //授業では、schedule は、mRealmクラスの外側なので
+                //final Schedule schedule のように、finalの記載が必要といわれるが・・・警告されない。(クラスはfinalの指定いらないのかな？)
+                Schedule schedule = adapter.getItem(position);
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        schedule.deleteFromRealm();
+                    }
+                });
+                return true;
+            }
+        });
 
     }
 }

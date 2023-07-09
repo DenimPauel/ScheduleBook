@@ -3,6 +3,8 @@ package com.example.schedulebook;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,13 +33,56 @@ public class InputActivity extends AppCompatActivity {
         if (getIntent() != null ){
             mId = getIntent().getLongExtra("ID", -1);
 
-            Schedule schedule = mRealm.where(Schedule.class).equalTo("id", -1).findFirst();
+            Schedule schedule = mRealm.where(Schedule.class).equalTo("id", mId).findFirst();
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             String formatDate = sdf.format(schedule.getDate());
             mDate.setText(formatDate);
             mTitle.setText(schedule.getTitle());
-            mDate.setText(schedule.getDetail());
+            mDetail.setText(schedule.getDetail());
         }
+
+        //mTitle 文字変更のリスナー
+        mTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {  //授業では、final Editable s と書けといわれているが・・・、警告表示がない
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Schedule diary = realm.where(Schedule.class).equalTo("id", mId).findFirst();
+                        diary.setTitle( s.toString());
+                    }
+                });
+            }
+        });
+
+        //mDetail 文字変更のリスナー
+        mDetail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mRealm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Schedule diary = realm.where(Schedule.class).equalTo("id", mId).findFirst();
+                        diary.setDetail(s.toString());
+                    }
+                });
+            }
+        });
+
     }
 }
