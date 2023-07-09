@@ -1,12 +1,22 @@
 package com.example.schedulebook;
 
-import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+
+//SimpleDateFormatは、java版を使う。icu版はApi24から追加。https://teratail.com/questions/70962
+//使い分けたい場合は、
+//if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
+//        // android.icu.text.SimpleDataFormatを使う処理を
+//
+//        } else {
+//        // それ以前の処理を
+//        }
+//
+import java.text.SimpleDateFormat;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmBaseAdapter;
