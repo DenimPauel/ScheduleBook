@@ -1,5 +1,9 @@
 package com.example.schedulebook;
 
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -8,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.palette.graphics.Palette;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -35,7 +40,8 @@ public class ShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityShowBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        View scrollView = binding.getRoot();
+        setContentView(scrollView);
 
         //※授業では、toolbarは、findViewByIdとR.id.toolbar から取得していたが、自動生成されたコードでは、ViewBiningから取得していた。(そのまま使う)
         // Toolbarは、ビューに合わせてスクロールができたり、リッチな表現が可能。
@@ -74,6 +80,21 @@ public class ShowActivity extends AppCompatActivity {
             imageView.setImageResource(images[(int) id%images.length]);
         }
 
+        //paletteを使う
+        // bitmapを取得、Paletteを生成
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        Palette palette = Palette.from(bitmap).generate();
+        //paletteから色を取得
+        int titleColor  = palette.getLightVibrantColor(Color.WHITE);
+        int bodyColor   = palette.getDarkMutedColor(Color.BLACK);
+        int scrimColor  = palette.getMutedColor(Color.DKGRAY);
+        int iconColor   = palette.getVibrantColor(Color.LTGRAY);
+        //ビューに色を設定
+        toolBarLayout.setExpandedTitleColor(titleColor);    //タイトル文字色
+        toolBarLayout.setContentScrimColor(scrimColor);     //タイトル背景色
+        scrollView.setBackgroundColor(bodyColor);           //scrollViewの背景色(これであってる？)
+        detail.setTextColor(titleColor);                    //
+        fab.setBackgroundTintList(ColorStateList.valueOf(iconColor));//アイコン　valueOfに色を渡して、ColorStateListオブジェクトをを作成
     }
 
     @Override

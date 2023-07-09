@@ -44,4 +44,8 @@ dependencies {
     // https://github.com/realm/realm-android-adapters
     // https://mvnrepository.com/artifact/io.realm/android-adapters?repo=bt-realm
     implementation 'io.realm:android-adapters:4.0.0'
+
+    //パレットは、androidxの新しいバージョンを使う。
+    //https://developer.android.com/jetpack/androidx/releases/palette?hl=ja
+    implementation 'androidx.palette:palette:1.0.0'
 }
