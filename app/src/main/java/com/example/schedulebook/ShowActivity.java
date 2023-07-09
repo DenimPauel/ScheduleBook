@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.schedulebook.databinding.ActivityShowBinding;
+
+import java.text.SimpleDateFormat;
 
 import io.realm.Realm;
 
@@ -20,6 +24,11 @@ public class ShowActivity extends AppCompatActivity {
     private ActivityShowBinding binding;
 
     private Realm mRealm;
+    private int[] images = {
+            R.drawable.image0,  //https://pixabay.com/ から画像を収集。
+            R.drawable.image1,
+            R.drawable.image2,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +37,12 @@ public class ShowActivity extends AppCompatActivity {
         binding = ActivityShowBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //※授業では、toolbarは、findViewByIdとR.id.toolbar から取得していたが、自動生成されたコードでは、ViewBiningから取得していた。(そのまま使う)
+        // Toolbarは、ビューに合わせてスクロールができたり、リッチな表現が可能。
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle(getTitle());
+        //ひな形から削除。toolBarLayout.setTitle(getTitle());
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +54,26 @@ public class ShowActivity extends AppCompatActivity {
         });
 
         mRealm = Realm.getDefaultInstance();
+
+        ImageView imageView = (ImageView) findViewById(R.id.toolbar_image);
+        TextView date = (TextView) findViewById(R.id.date);
+        TextView detail = (TextView) findViewById(R.id.detail);
+
+        if( getIntent() != null){
+            long id =getIntent().getLongExtra("ID", -1);
+
+            Schedule schedule = mRealm.where(Schedule.class).equalTo("id", id).findFirst();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            if ( schedule.getDate() != null ) {
+                String formatDate = sdf.format(schedule.getDate());
+                date.setText(formatDate);
+            }
+            toolBarLayout.setTitle(schedule.getTitle());
+            detail.setText(schedule.getDetail());
+            imageView.setImageResource(images[(int) id%images.length]);
+        }
+
     }
 
     @Override

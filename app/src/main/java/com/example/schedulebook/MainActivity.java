@@ -70,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
                         schedule.setDetail("");
                     }
                 });
-
+                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                intent.putExtra("ID", newId[0]);
+                startActivity(intent);
             }
         });
 
@@ -82,7 +84,11 @@ public class MainActivity extends AppCompatActivity {
                 ScheduleAdapter adapter = (ScheduleAdapter) mListView.getAdapter();
                 //セルのポジション=IDを渡す。
                 Schedule schedule = adapter.getItem(position);
-                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+// ListViewスタイルのInputActivityから、リッチな画面のShowActivityに以降--->>>
+//              Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                Intent intent = new Intent(MainActivity.this, ShowActivity.class);
+// ListViewスタイルのInputActivityから、リッチな画面のShowActivityに以降<<<---
+//
                 intent.putExtra("ID", schedule.getId());
 //                intent.putExtra("ID", schedule.id);
                 startActivity(intent);
