@@ -112,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
 
                 //スナックバー　操作に対する簡易的なフィードバック・メッセージを送る仕組み
                 Snackbar.make(view, "削除しました", Snackbar.LENGTH_LONG )
+                        //スナックバー 追加アクション OKが押されたら・・・
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Snackbar.make(v, "OKが押された時の処理", Snackbar.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
                         .show();
 
                 return true;
