@@ -13,9 +13,13 @@ import android.view.View;
 
 import com.example.schedulebook.databinding.ActivityShowBinding;
 
+import io.realm.Realm;
+
 public class ShowActivity extends AppCompatActivity {
 
     private ActivityShowBinding binding;
+
+    private Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,5 +41,13 @@ public class ShowActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        mRealm = Realm.getDefaultInstance();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 }
