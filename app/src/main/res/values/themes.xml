@@ -3,6 +3,32 @@
     <style name="Base.Theme.ScheduleBook" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!--Theme EditorはAndroid Studio 3.3で廃止になったようです。
+        以下は、
+        https://developer.android.com/guide/topics/ui/look-and-feel/themes?hl=ja#CustomizeTheme
+        を見て、colors_custom.xml に追加した、いくつかの色定義を適用してみた。
+        色塗りの対象の名称は、colorPrimary にマウスをあてて、右クリック。Find usages から辿れそう。
+        %USERPROFILE%\.gradle\caches\transforms-3\edb6ba6af26e8515ca00561773b62c7f\transformed\appcompat-1.6.1\res\values\values.xml
+    -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:colorBackground">@color/primary_light</item>
+    <!--
+        2023年現在のGoogleのおすすめ？は・・・
+        Material Design3 を導入して、見た目がよいUIを実装することらしい・・・。
+        https://m3.material.io/theme-builder
+
+        本家ブログ: Compose のマテリアル デザイン 3 が安定版に
+            https://android-developers-jp.googleblog.com/2023/02/material-design-3-compose-stable.html
+            build.gradle ファイルに Compose Material 3 への依存関係を追加することで
+            アプリでマテリアル デザイン 3 を使い始めることができるらしい。
+
+        How to Build Stunning Material 3 Apps with Jetpack Compose - Android Studio Tutorial
+            https://www.youtube.com/watch?v=h7K4n9C2jkI ※ Kotlin
+            Material Design 3を使う場合、Jetpack が必ず要求されるのか？はまだわからない。
+    -->
     </style>
 
     <style name="Theme.ScheduleBook" parent="Base.Theme.ScheduleBook" />
